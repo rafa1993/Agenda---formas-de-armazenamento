@@ -1,16 +1,19 @@
 package com.brq.agenda.ui.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
+
 import com.brq.agenda.R;
 import com.brq.agenda.dao.AlunoDAO;
+import com.brq.agenda.databaseRoom.AgendaDatabase;
+import com.brq.agenda.databaseRoom.dao.RoomAlunoDAO;
 import com.brq.agenda.model.Aluno;
 
 import static com.brq.agenda.ui.activity.ConstantesActivities.CHAVE_ALUNO;
@@ -22,13 +25,17 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     private EditText campoNome;
     private EditText campoTelefone;
     private EditText campoEmail;
-    private final AlunoDAO dao = new AlunoDAO();
+    private RoomAlunoDAO dao;
     private Aluno aluno;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_formulario_aluno);
+        AgendaDatabase database = Room.databaseBuilder(this, AgendaDatabase.class, "agenda.db")
+                .allowMainThreadQueries()
+                .build();
+        dao = database.getRoomAlunoDAO();
         inicializacaoDosCampos();
         carregaAluno();
     }
