@@ -8,33 +8,28 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
 import com.brq.agenda.R;
-import com.brq.agenda.dao.AlunoDAO;
 import com.brq.agenda.databaseRoom.AgendaDatabase;
-import com.brq.agenda.databaseRoom.dao.RoomAlunoDAO;
+import com.brq.agenda.databaseRoom.dao.AlunoDAO;
 import com.brq.agenda.model.Aluno;
-
-import static com.brq.agenda.ui.activity.ConstantesActivities.CHAVE_ALUNO;
 
 public class FormularioAlunoActivity extends AppCompatActivity {
 
     public static final String TITULO_APPBAR_NOVO_ALUNO = "Novo Aluno";
     private static final String TITULO_APPBAR_EDITA_ALUNO = "Edita Aluno" ;
     private EditText campoNome;
+    private EditText campoSobrenome;
     private EditText campoTelefone;
     private EditText campoEmail;
-    private RoomAlunoDAO dao;
+    private AlunoDAO dao;
     private Aluno aluno;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_formulario_aluno);
-        AgendaDatabase database = Room.databaseBuilder(this, AgendaDatabase.class, "agenda.db")
-                .allowMainThreadQueries()
-                .build();
+        AgendaDatabase database = AgendaDatabase.getInstance(this);
         dao = database.getRoomAlunoDAO();
         inicializacaoDosCampos();
         carregaAluno();
@@ -57,9 +52,9 @@ public class FormularioAlunoActivity extends AppCompatActivity {
 
     private void carregaAluno() {
         Intent dados = getIntent();
-        if(dados.hasExtra(CHAVE_ALUNO)){
+        if(dados.hasExtra(ConstantesActivities.CHAVE_ALUNO)){
             setTitle(TITULO_APPBAR_EDITA_ALUNO);
-            aluno = (Aluno) dados.getSerializableExtra(CHAVE_ALUNO);
+            aluno = (Aluno) dados.getSerializableExtra(ConstantesActivities.CHAVE_ALUNO);
             preencheCampos();
         }else {
             setTitle(TITULO_APPBAR_NOVO_ALUNO);
@@ -69,6 +64,7 @@ public class FormularioAlunoActivity extends AppCompatActivity {
 
     private void preencheCampos() {
         campoNome.setText(aluno.getNome());
+        campoSobrenome.setText(aluno.getSobrenome());
         campoTelefone.setText(aluno.getTelefone());
         campoEmail.setText(aluno.getEmail());
     }
@@ -85,6 +81,7 @@ public class FormularioAlunoActivity extends AppCompatActivity {
 
     private void inicializacaoDosCampos() {
         campoNome = findViewById(R.id.activity_formulario_aluno_nome);
+        campoSobrenome = findViewById(R.id.activity_formulario_aluno_sobrenome);
         campoTelefone = findViewById(R.id.activity_formulario_aluno_telefone);
         campoEmail = findViewById(R.id.activity_formulario_aluno_email);
     }
@@ -93,8 +90,10 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         String nome = campoNome.getText().toString();
         String telefone = campoTelefone.getText().toString();
         String email = campoEmail.getText().toString();
+        String sobrenome = campoSobrenome.getText().toString();
 
         aluno.setNome(nome);
+        aluno.setSobrenome(sobrenome);
         aluno.setTelefone(telefone);
         aluno.setEmail(email);
     }
