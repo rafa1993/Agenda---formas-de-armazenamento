@@ -28,13 +28,9 @@ public class Aluno implements Serializable {
 
     }
 
-    public String getSobrenome() {
-        return sobrenome;
-    }
+   public String getSobrenome() {return sobrenome;}
 
-    public void setSobrenome(String sobrenome) {
-        this.sobrenome = sobrenome;
-    }
+   public void setSobrenome(String sobrenome) {this.sobrenome = sobrenome;}
 
     public void setNome(String nome) {
         this.nome = nome;
