@@ -1,7 +1,6 @@
 package com.brq.agenda.databaseRoom.converter;
 
 import androidx.room.TypeConverter;
-import androidx.room.TypeConverters;
 
 import java.util.Calendar;
 
@@ -9,7 +8,10 @@ public class ConversorCalendar {
 
     @TypeConverter
     public Long paraLong(Calendar valor){
+        if (valor !=null){
             return valor.getTimeInMillis();
+        }
+        return null;
     }
 
     @TypeConverter
