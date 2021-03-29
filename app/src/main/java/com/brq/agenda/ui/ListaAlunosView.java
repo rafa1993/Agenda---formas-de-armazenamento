@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.brq.agenda.asynctask.BuscaAlunosTask;
 import com.brq.agenda.databaseRoom.AgendaDatabase;
 import com.brq.agenda.databaseRoom.dao.AlunoDAO;
 import com.brq.agenda.model.Aluno;
@@ -37,7 +38,7 @@ public class ListaAlunosView {
     }
 
     public void atualizaAlunos() {
-        adapter.atualiza(dao.todos());
+        new BuscaAlunosTask(dao, adapter).execute();
     }
 
     private void remove(Aluno aluno) {

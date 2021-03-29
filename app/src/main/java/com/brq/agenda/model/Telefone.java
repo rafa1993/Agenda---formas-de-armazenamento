@@ -16,6 +16,11 @@ public class Telefone {
     @ForeignKey(entity = Aluno.class, parentColumns = "id", childColumns = "alunoId", onUpdate = CASCADE, onDelete = CASCADE)
     private int alunoId;
 
+    public Telefone(String numero, TipoTelefone tipo) {
+        this.numero = numero;
+        this.tipo = tipo;
+    }
+
     public int getAlunoId() {
         return alunoId;
     }
