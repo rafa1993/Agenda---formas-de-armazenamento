@@ -8,10 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.brq.agenda.R;
+import com.brq.agenda.asynctask.BuscaPrimeiroTelefoneDoAlunoTask;
 import com.brq.agenda.databaseRoom.AgendaDatabase;
 import com.brq.agenda.databaseRoom.dao.TelefoneDAO;
 import com.brq.agenda.model.Aluno;
-import com.brq.agenda.model.Telefone;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,10 +54,8 @@ public class ListaAlunosAdapter extends BaseAdapter {
         TextView nome = view.findViewById(R.id.item_aluno_nome);
         nome.setText(aluno.getNome());
         TextView telefone = view.findViewById(R.id.item_aluno_telefone);
-        //Telefone primeiroTelefone = dao.buscaPrimeiroTelefoneDoAluno(aluno.getId());
-        //if (primeiroTelefone != null) {
-        //  telefone.setText(primeiroTelefone.getNumero());
-        //}
+        new BuscaPrimeiroTelefoneDoAlunoTask(dao, aluno.getId(), telefoneEncontrado ->
+            telefone.setText(telefoneEncontrado.getNumero())).execute();
     }
 
     private View criaView(ViewGroup viewGroup) {

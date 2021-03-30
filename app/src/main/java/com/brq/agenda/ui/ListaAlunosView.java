@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.brq.agenda.asynctask.BuscaAlunosTask;
+import com.brq.agenda.asynctask.RemoveAlunoTask;
 import com.brq.agenda.databaseRoom.AgendaDatabase;
 import com.brq.agenda.databaseRoom.dao.AlunoDAO;
 import com.brq.agenda.model.Aluno;
@@ -42,8 +43,7 @@ public class ListaAlunosView {
     }
 
     private void remove(Aluno aluno) {
-        dao.remove(aluno);
-        adapter.remove(aluno);
+        new RemoveAlunoTask(dao, adapter, aluno).execute();
     }
 
     public void configuraAdapter(ListView listaDeAlunos) {
